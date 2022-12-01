@@ -9,7 +9,7 @@ import {
   PasswordInput,
 } from '@mantine/core';
 import { useDispatch } from 'react-redux';
-import { useHeaderUiSlice } from 'store/rootSlice/userSlice';
+import { useHeaderUiSlice } from 'store/slice/userSlice';
 
 export function Login() {
   const dispatch = useDispatch();
@@ -17,7 +17,9 @@ export function Login() {
   const [form, setForm] = useState({ username: '', password: '' });
 
   const handleLoginUser = () => {
+    console.log('handleLoginUser 1');
     dispatch(actions.loginSuccess(form));
+    console.log('handleLoginUser 2');
   };
 
   const handleChange = e => {

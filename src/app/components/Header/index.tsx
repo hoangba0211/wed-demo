@@ -5,7 +5,7 @@ import { createStyles, useMantineTheme } from '@mantine/core';
 import { Header, MediaQuery, Button, Burger } from '@mantine/core';
 
 import { Brand } from '../Brand';
-import { getUsersSelector } from 'store/rootSlice/userSlice/selectors';
+import { getUsersSelector } from 'store/slice/userSlice/selectors';
 import { useNavigate } from 'react-router-dom';
 
 const useStyles = createStyles(theme => ({

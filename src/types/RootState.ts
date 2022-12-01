@@ -1,4 +1,4 @@
-import { HeaderUiState } from 'store/rootSlice/userSlice/type';
+import { HeaderUiState } from 'store/slice/userSlice/type';
 
 export interface RootState {
   users?: HeaderUiState;
