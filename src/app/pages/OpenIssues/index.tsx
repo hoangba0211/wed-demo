@@ -1,0 +1,20 @@
+import * as React from 'react';
+import { Helmet } from 'react-helmet-async';
+import { useTranslation } from 'react-i18next';
+import { Container } from '@mantine/core';
+
+export function OpenIssues() {
+  const { t } = useTranslation();
+  return (
+    <>
+      <Helmet>
+        <title>Open Issues</title>
+        <meta name="description" content="A Boilerplate application homepage" />
+      </Helmet>
+
+      <Container h="1000px">
+        <span>{t('Open Issues')}</span>
+      </Container>
+    </>
+  );
+}

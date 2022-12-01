@@ -23,20 +23,18 @@ interface HeaderUiProps {
   setOpened: any;
 }
 function HeaderUi({ opened, setOpened }: HeaderUiProps) {
-  const { classes } = useStyles();
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { actions } = useHeaderUiSlice();
-
   const theme = useMantineTheme();
-  const { i18n } = useTranslation();
+  const { classes } = useStyles();
+  const { t, i18n } = useTranslation();
+  const { actions } = useHeaderUiSlice();
 
   // Global State
   const user = useSelector(getUsersSelector);
 
   // Local State
-  const [selected, setSelected] = useState(false);
+  const [selected, setSelected] = useState(true);
 
   const changeLanguage = lng => {
     i18n.changeLanguage(lng);
@@ -94,7 +92,7 @@ function HeaderUi({ opened, setOpened }: HeaderUiProps) {
             gradient={{ from: 'indigo', to: 'cyan' }}
             ml="sm"
           >
-            Login
+            {t('Login')}
           </Button>
         ) : (
           <Button
@@ -103,7 +101,7 @@ function HeaderUi({ opened, setOpened }: HeaderUiProps) {
             gradient={{ from: '#ed6ea0', to: '#ec8c69', deg: 35 }}
             ml="sm"
           >
-            Logout
+            {t('Logout')}
           </Button>
         )}
       </div>

@@ -3,5 +3,10 @@
   "Open Issues": "Open Issues",
   "Discussions": "Discussions",
   "Databases": "Databases",
-  "Pull Requests": "Pull Requests"
+  "Pull Requests": "Pull Requests",
+  "Login": "Login",
+  "Logout": "Logout",
+  "Username": "Username",
+  "Password": "Password",
+  "Welcome to My App": "Welcome to My App"
 }

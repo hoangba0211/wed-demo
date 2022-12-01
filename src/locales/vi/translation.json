@@ -3,5 +3,10 @@
   "Open Issues": "Vấn đề mở",
   "Discussions": "Thảo luận",
   "Databases": "Cơ sở dữ liệu",
-  "Pull Requests": "Yêu cầu kéo"
+  "Pull Requests": "Yêu cầu kéo",
+  "Login": "Đăng nhập",
+  "Logout": "Đăng xuất",
+  "Username": "Tài khoản",
+  "Password": "Mật khẩu",
+  "Welcome to My App": "Chào mừng đến với My App"
 }

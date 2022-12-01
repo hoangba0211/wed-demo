@@ -12,10 +12,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHeaderUiSlice } from 'store/slice/userSlice';
 import { useNavigate } from 'react-router-dom';
 import { getUsersSelector } from 'store/slice/userSlice/selectors';
+import { useTranslation } from 'react-i18next';
 
 export function Login() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const { actions } = useHeaderUiSlice();
   // Global State
   const user = useSelector(getUsersSelector);
@@ -66,19 +68,19 @@ export function Login() {
         })}
       >
         <Title order={3} align="center">
-          Welcome to My App
+          {t('Welcome to My App')}
         </Title>
         <TextInput
-          placeholder="Username"
-          label="Username"
+          placeholder={`${t('Username')}`}
+          label={`${t('Username')}`}
           value={form.username}
           name="username"
           onChange={e => handleChange(e)}
         />
 
         <PasswordInput
-          placeholder="Password"
-          label="Password"
+          placeholder={`${t('Password')}`}
+          label={`${t('Password')}`}
           withAsterisk
           value={form.password}
           name="password"
@@ -86,7 +88,7 @@ export function Login() {
         />
         <Group position="center" mt="xl">
           <Button variant="outline" onClick={handleLoginUser}>
-            Login
+            {t('Login')}
           </Button>
         </Group>
       </Box>
