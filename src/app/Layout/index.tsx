@@ -1,27 +1,11 @@
 import React, { useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { IconDatabase } from '@tabler/icons';
-import {
-  AppShell,
-  Navbar,
-  Header,
-  useMantineTheme,
-  MediaQuery,
-  Button,
-  Burger,
-  createStyles,
-} from '@mantine/core';
+import { AppShell, Navbar, createStyles } from '@mantine/core';
 import { Brand } from 'app/components/Brand';
 import { User } from 'app/components/User';
 import { MainLinks } from 'app/components/MainLinks';
+import { HeaderUi } from 'app/components/Header';
 
 const useStyles = createStyles(theme => ({
-  header: {
-    '@media (max-width: 800px)': {
-      flex: '1',
-      justifyContent: 'space-between',
-    },
-  },
   hiden: {
     '@media (max-width: 800px)': {
       display: 'none',
@@ -45,19 +29,9 @@ interface LayoutProps {
   children: React.ReactNode;
 }
 const Layout = ({ children }: LayoutProps) => {
-  const theme = useMantineTheme();
-  const { i18n } = useTranslation();
   const { classes } = useStyles();
 
   const [opened, setOpened] = useState(false);
-  const [selected, setSelected] = useState(false);
-  const handleOpened = () => {
-    setOpened(prev => !prev);
-  };
-  const changeLanguage = lng => {
-    i18n.changeLanguage(lng);
-    setSelected(prev => !prev);
-  };
   return (
     <>
       <AppShell
@@ -85,43 +59,7 @@ const Layout = ({ children }: LayoutProps) => {
             </Navbar.Section>
           </Navbar>
         }
-        header={
-          <Header height={{ base: 70, md: 70 }} p="md">
-            <div
-              className={classes.header}
-              style={{ display: 'flex', alignItems: 'center', height: '100%' }}
-            >
-              <MediaQuery largerThan="md" styles={{ display: 'none' }}>
-                <Burger
-                  opened={opened}
-                  onClick={handleOpened}
-                  size="sm"
-                  color={theme.colors.gray[6]}
-                  mr="xl"
-                />
-              </MediaQuery>
-              <Brand />
-
-              {selected ? (
-                <Button
-                  miw="65px"
-                  variant="default"
-                  onClick={() => changeLanguage('vi')}
-                >
-                  VN
-                </Button>
-              ) : (
-                <Button
-                  miw="65px"
-                  variant="default"
-                  onClick={() => changeLanguage('en')}
-                >
-                  EN
-                </Button>
-              )}
-            </div>
-          </Header>
-        }
+        header={<HeaderUi opened={opened} setOpened={setOpened} />}
         styles={theme => ({
           main: {
             backgroundColor:

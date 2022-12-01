@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Group, Box, createStyles } from '@mantine/core';
 import { Logo } from '../Logo';
 
