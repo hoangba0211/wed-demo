@@ -1,6 +1,7 @@
 export interface HeaderUiState {
-  username: string;
-  password: string;
-  loading: boolean;
-  id: number;
+  username?: string;
+  password?: string;
+  loading?: boolean;
+  token?: string;
+  id?: number;
 }

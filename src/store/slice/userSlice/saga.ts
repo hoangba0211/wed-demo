@@ -1,26 +1,29 @@
 import { takeLatest, put } from 'redux-saga/effects';
 import axios from 'axios';
-import { headerUiActions } from '.';
+import { usersActions } from './index';
 
 function* loginUser(action) {
+  console.log('action saga');
   try {
+    console.log('loginUser');
     const user = yield axios.post('https://ttvnapi.com/v1/login', {
       username: action.payload.username,
       password: action.payload.password,
     });
-    console.log(11, user);
     yield put(
-      headerUiActions.loginSuccess({
+      usersActions.loginSuccess({
         username: action.payload.username,
         password: action.payload.password,
+        token: user.data.data.token,
         id: user.data.data.id,
       }),
     );
+    console.log(user);
   } catch (err) {
     console.log(err);
-    yield put(headerUiActions.loginFail);
+    yield put(usersActions.loginFail);
   }
 }
-export default function* HeaderUiSaga() {
-  yield [takeLatest(headerUiActions.loginSuccess.type, loginUser)];
+export function* useUserFromSaga() {
+  yield takeLatest(usersActions.login.type, loginUser);
 }

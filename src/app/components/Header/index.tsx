@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { createStyles, useMantineTheme } from '@mantine/core';
 import { Header, MediaQuery, Button, Burger } from '@mantine/core';
@@ -7,6 +7,7 @@ import { Header, MediaQuery, Button, Burger } from '@mantine/core';
 import { Brand } from '../Brand';
 import { getUsersSelector } from 'store/slice/userSlice/selectors';
 import { useNavigate } from 'react-router-dom';
+import { useHeaderUiSlice } from 'store/slice/userSlice';
 
 const useStyles = createStyles(theme => ({
   header: {
@@ -22,12 +23,19 @@ interface HeaderUiProps {
   setOpened: any;
 }
 function HeaderUi({ opened, setOpened }: HeaderUiProps) {
-  const navigate = useNavigate();
-  const theme = useMantineTheme();
-  const user = useSelector(getUsersSelector);
-  console.log(28, user);
   const { classes } = useStyles();
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { actions } = useHeaderUiSlice();
+
+  const theme = useMantineTheme();
   const { i18n } = useTranslation();
+
+  // Global State
+  const user = useSelector(getUsersSelector);
+
+  // Local State
   const [selected, setSelected] = useState(false);
 
   const changeLanguage = lng => {
@@ -41,6 +49,9 @@ function HeaderUi({ opened, setOpened }: HeaderUiProps) {
 
   const handleLoginUser = () => {
     navigate('/login');
+  };
+  const handleLogoutUser = () => {
+    dispatch(actions.logout());
   };
   return (
     <Header height={{ base: 70, md: 70 }} p="md">
@@ -87,6 +98,7 @@ function HeaderUi({ opened, setOpened }: HeaderUiProps) {
           </Button>
         ) : (
           <Button
+            onClick={handleLogoutUser}
             variant="gradient"
             gradient={{ from: '#ed6ea0', to: '#ec8c69', deg: 35 }}
             ml="sm"

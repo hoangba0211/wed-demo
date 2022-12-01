@@ -8,23 +8,36 @@ import {
   Title,
   PasswordInput,
 } from '@mantine/core';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHeaderUiSlice } from 'store/slice/userSlice';
+import { useNavigate } from 'react-router-dom';
+import { getUsersSelector } from 'store/slice/userSlice/selectors';
 
 export function Login() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { actions } = useHeaderUiSlice();
+  // Global State
+  const user = useSelector(getUsersSelector);
+  // Local State
   const [form, setForm] = useState({ username: '', password: '' });
 
   const handleLoginUser = () => {
     console.log('handleLoginUser 1');
-    dispatch(actions.loginSuccess(form));
-    console.log('handleLoginUser 2');
+    dispatch(
+      actions.login({ username: form.username, password: form.password }),
+    );
   };
 
   const handleChange = e => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
+
+  React.useEffect(() => {
+    if (user) {
+      navigate('/');
+    }
+  }, [navigate, user]);
   return (
     <Container
       sx={theme => ({
