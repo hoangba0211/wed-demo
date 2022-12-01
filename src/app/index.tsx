@@ -18,6 +18,7 @@ import Layout from './Layout';
 
 export function App() {
   const { i18n } = useTranslation();
+
   return (
     <BrowserRouter>
       <Helmet
@@ -30,17 +31,17 @@ export function App() {
 
       <Routes>
         {publicRouters.map(function (route, index) {
-          return (
-            <Route
-              key={index}
-              path={route.path}
-              element={
-                <Layout>
-                  <route.component />
-                </Layout>
-              }
-            />
+          const Page = route.component;
+          let elements = (
+            <Layout>
+              <Page />
+            </Layout>
           );
+
+          if (!route.layout) {
+            elements = <Page />;
+          }
+          return <Route key={index} path={route.path} element={elements} />;
         })}
       </Routes>
       <GlobalStyle />

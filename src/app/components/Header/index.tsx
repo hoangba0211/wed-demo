@@ -1,8 +1,13 @@
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { createStyles, useMantineTheme } from '@mantine/core';
 import { Header, MediaQuery, Button, Burger } from '@mantine/core';
+
 import { Brand } from '../Brand';
-import { useTranslation } from 'react-i18next';
+import { getUsersSelector } from 'store/slice/userSlice/selectors';
+import { useNavigate } from 'react-router-dom';
+import { useHeaderUiSlice } from 'store/slice/userSlice';
 
 const useStyles = createStyles(theme => ({
   header: {
@@ -12,23 +17,41 @@ const useStyles = createStyles(theme => ({
     },
   },
 }));
-interface HeaderUi {
+
+interface HeaderUiProps {
   opened: boolean;
   setOpened: any;
 }
-export const HeaderUi = ({ opened, setOpened }: HeaderUi) => {
+function HeaderUi({ opened, setOpened }: HeaderUiProps) {
   const { classes } = useStyles();
-  const { i18n } = useTranslation();
-  const theme = useMantineTheme();
 
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { actions } = useHeaderUiSlice();
+
+  const theme = useMantineTheme();
+  const { i18n } = useTranslation();
+
+  // Global State
+  const user = useSelector(getUsersSelector);
+
+  // Local State
   const [selected, setSelected] = useState(false);
 
   const changeLanguage = lng => {
     i18n.changeLanguage(lng);
     setSelected(prev => !prev);
   };
+
   const handleOpened = () => {
     setOpened(prev => !prev);
+  };
+
+  const handleLoginUser = () => {
+    navigate('/login');
+  };
+  const handleLogoutUser = () => {
+    dispatch(actions.logout());
   };
   return (
     <Header height={{ base: 70, md: 70 }} p="md">
@@ -64,7 +87,27 @@ export const HeaderUi = ({ opened, setOpened }: HeaderUi) => {
             EN
           </Button>
         )}
+        {!user ? (
+          <Button
+            onClick={handleLoginUser}
+            variant="gradient"
+            gradient={{ from: 'indigo', to: 'cyan' }}
+            ml="sm"
+          >
+            Login
+          </Button>
+        ) : (
+          <Button
+            onClick={handleLogoutUser}
+            variant="gradient"
+            gradient={{ from: '#ed6ea0', to: '#ec8c69', deg: 35 }}
+            ml="sm"
+          >
+            Logout
+          </Button>
+        )}
       </div>
     </Header>
   );
-};
+}
+export default HeaderUi;

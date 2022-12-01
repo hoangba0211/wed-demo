@@ -1,16 +1,43 @@
-import * as React from 'react';
-import { useForm } from '@mantine/form';
-import { TextInput, Button, Group, Box, Container, Title } from '@mantine/core';
-import { randomId } from '@mantine/hooks';
+import React, { useState } from 'react';
+import {
+  TextInput,
+  Button,
+  Group,
+  Box,
+  Container,
+  Title,
+  PasswordInput,
+} from '@mantine/core';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHeaderUiSlice } from 'store/slice/userSlice';
+import { useNavigate } from 'react-router-dom';
+import { getUsersSelector } from 'store/slice/userSlice/selectors';
 
 export function Login() {
-  const form = useForm({
-    initialValues: {
-      name: '',
-      email: '',
-    },
-  });
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { actions } = useHeaderUiSlice();
+  // Global State
+  const user = useSelector(getUsersSelector);
+  // Local State
+  const [form, setForm] = useState({ username: '', password: '' });
 
+  const handleLoginUser = () => {
+    console.log('handleLoginUser 1');
+    dispatch(
+      actions.login({ username: form.username, password: form.password }),
+    );
+  };
+
+  const handleChange = e => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  React.useEffect(() => {
+    if (user) {
+      navigate('/');
+    }
+  }, [navigate, user]);
   return (
     <Container
       sx={theme => ({
@@ -42,27 +69,23 @@ export function Login() {
           Welcome to My App
         </Title>
         <TextInput
-          label="Name"
-          placeholder="Name"
-          {...form.getInputProps('name')}
-        />
-        <TextInput
-          mt="md"
-          label="Email"
-          placeholder="Email"
-          {...form.getInputProps('email')}
+          placeholder="Username"
+          label="Username"
+          value={form.username}
+          name="username"
+          onChange={e => handleChange(e)}
         />
 
+        <PasswordInput
+          placeholder="Password"
+          label="Password"
+          withAsterisk
+          value={form.password}
+          name="password"
+          onChange={e => handleChange(e)}
+        />
         <Group position="center" mt="xl">
-          <Button
-            variant="outline"
-            onClick={() =>
-              form.setValues({
-                name: randomId(),
-                email: `${randomId()}@test.com`,
-              })
-            }
-          >
+          <Button variant="outline" onClick={handleLoginUser}>
             Login
           </Button>
         </Group>
