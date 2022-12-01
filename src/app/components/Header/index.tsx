@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { createStyles, useMantineTheme } from '@mantine/core';
 import { Header, MediaQuery, Button, Burger } from '@mantine/core';
+
 import { Brand } from '../Brand';
-import { useTranslation } from 'react-i18next';
+import { getUsersSelector } from 'store/rootSlice/userSlice/selectors';
+import { useNavigate } from 'react-router-dom';
 
 const useStyles = createStyles(theme => ({
   header: {
@@ -12,23 +16,31 @@ const useStyles = createStyles(theme => ({
     },
   },
 }));
-interface HeaderUi {
+
+interface HeaderUiProps {
   opened: boolean;
   setOpened: any;
 }
-export const HeaderUi = ({ opened, setOpened }: HeaderUi) => {
+function HeaderUi({ opened, setOpened }: HeaderUiProps) {
+  const navigate = useNavigate();
+  const theme = useMantineTheme();
+  const user = useSelector(getUsersSelector);
+  console.log(28, user);
   const { classes } = useStyles();
   const { i18n } = useTranslation();
-  const theme = useMantineTheme();
-
   const [selected, setSelected] = useState(false);
 
   const changeLanguage = lng => {
     i18n.changeLanguage(lng);
     setSelected(prev => !prev);
   };
+
   const handleOpened = () => {
     setOpened(prev => !prev);
+  };
+
+  const handleLoginUser = () => {
+    navigate('/login');
   };
   return (
     <Header height={{ base: 70, md: 70 }} p="md">
@@ -64,7 +76,26 @@ export const HeaderUi = ({ opened, setOpened }: HeaderUi) => {
             EN
           </Button>
         )}
+        {!user ? (
+          <Button
+            onClick={handleLoginUser}
+            variant="gradient"
+            gradient={{ from: 'indigo', to: 'cyan' }}
+            ml="sm"
+          >
+            Login
+          </Button>
+        ) : (
+          <Button
+            variant="gradient"
+            gradient={{ from: '#ed6ea0', to: '#ec8c69', deg: 35 }}
+            ml="sm"
+          >
+            Logout
+          </Button>
+        )}
       </div>
     </Header>
   );
-};
+}
+export default HeaderUi;

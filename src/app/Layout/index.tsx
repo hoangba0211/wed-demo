@@ -3,7 +3,7 @@ import { AppShell, Navbar, createStyles } from '@mantine/core';
 import { Brand } from 'app/components/Brand';
 import { User } from 'app/components/User';
 import { MainLinks } from 'app/components/MainLinks';
-import { HeaderUi } from 'app/components/Header';
+import HeaderUi from 'app/components/Header';
 
 const useStyles = createStyles(theme => ({
   hiden: {
@@ -26,7 +26,7 @@ const useStyles = createStyles(theme => ({
   },
 }));
 interface LayoutProps {
-  children: React.ReactNode;
+  children?: React.ReactElement;
 }
 const Layout = ({ children }: LayoutProps) => {
   const { classes } = useStyles();

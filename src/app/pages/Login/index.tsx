@@ -1,16 +1,28 @@
-import * as React from 'react';
-import { useForm } from '@mantine/form';
-import { TextInput, Button, Group, Box, Container, Title } from '@mantine/core';
-import { randomId } from '@mantine/hooks';
+import React, { useState } from 'react';
+import {
+  TextInput,
+  Button,
+  Group,
+  Box,
+  Container,
+  Title,
+  PasswordInput,
+} from '@mantine/core';
+import { useDispatch } from 'react-redux';
+import { useHeaderUiSlice } from 'store/rootSlice/userSlice';
 
 export function Login() {
-  const form = useForm({
-    initialValues: {
-      name: '',
-      email: '',
-    },
-  });
+  const dispatch = useDispatch();
+  const { actions } = useHeaderUiSlice();
+  const [form, setForm] = useState({ username: '', password: '' });
 
+  const handleLoginUser = () => {
+    dispatch(actions.loginSuccess(form));
+  };
+
+  const handleChange = e => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
   return (
     <Container
       sx={theme => ({
@@ -42,27 +54,23 @@ export function Login() {
           Welcome to My App
         </Title>
         <TextInput
-          label="Name"
-          placeholder="Name"
-          {...form.getInputProps('name')}
-        />
-        <TextInput
-          mt="md"
-          label="Email"
-          placeholder="Email"
-          {...form.getInputProps('email')}
+          placeholder="Username"
+          label="Username"
+          value={form.username}
+          name="username"
+          onChange={e => handleChange(e)}
         />
 
+        <PasswordInput
+          placeholder="Password"
+          label="Password"
+          withAsterisk
+          value={form.password}
+          name="password"
+          onChange={e => handleChange(e)}
+        />
         <Group position="center" mt="xl">
-          <Button
-            variant="outline"
-            onClick={() =>
-              form.setValues({
-                name: randomId(),
-                email: `${randomId()}@test.com`,
-              })
-            }
-          >
+          <Button variant="outline" onClick={handleLoginUser}>
             Login
           </Button>
         </Group>
