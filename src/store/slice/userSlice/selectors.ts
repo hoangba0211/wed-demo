@@ -11,3 +11,8 @@ export const getTokenSelector = createSelector(
   [selectDomain],
   userSelector => userSelector.token,
 );
+
+export const getLoadingSelector = createSelector(
+  [selectDomain],
+  userSelector => userSelector.loading,
+);

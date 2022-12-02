@@ -7,11 +7,15 @@ import {
   Container,
   Title,
   PasswordInput,
+  LoadingOverlay,
 } from '@mantine/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHeaderUiSlice } from 'store/slice/userSlice';
 import { useNavigate } from 'react-router-dom';
-import { getTokenSelector } from 'store/slice/userSlice/selectors';
+import {
+  getTokenSelector,
+  getLoadingSelector,
+} from 'store/slice/userSlice/selectors';
 import { useTranslation } from 'react-i18next';
 
 export function Login() {
@@ -21,6 +25,7 @@ export function Login() {
   const { actions } = useHeaderUiSlice();
   // Global State
   const token = useSelector(getTokenSelector);
+  const loading = useSelector(getLoadingSelector);
   // Local State
   const [form, setForm] = useState({ username: '', password: '' });
 
@@ -40,7 +45,9 @@ export function Login() {
       navigate('/');
     }
   }, [navigate, token]);
-  return (
+  return loading ? (
+    <LoadingOverlay overlayBlur={1} visible />
+  ) : (
     <Container
       sx={theme => ({
         maxWidth: '100%',

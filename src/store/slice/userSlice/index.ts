@@ -17,12 +17,9 @@ const slice = createSlice({
   initialState,
   reducers: {
     login(state: HeaderUiState, action: { payload: HeaderUiState }) {
-      console.log('first');
       state.loading = true;
     },
     loginSuccess(state: HeaderUiState, action: { payload: HeaderUiState }) {
-      console.log(action.payload);
-      console.log('loginSuccess 1');
       state.username = action.payload.username;
       state.password = action.payload.password;
       state.token = action.payload.token;
@@ -32,7 +29,6 @@ const slice = createSlice({
       localStorage.setItem('token', JSON.stringify(action.payload.token));
     },
     loginFail(state: HeaderUiState) {
-      console.log('loginFail 1');
       state.loading = false;
     },
     logout(state: HeaderUiState) {
