@@ -7,7 +7,7 @@ import { HeaderUiState } from './type';
 export const initialState: HeaderUiState = {
   username: '',
   password: '',
-  token: '',
+  token: '' || localStorage.getItem('token'),
   id: 0,
   loading: false,
 };
@@ -38,7 +38,10 @@ const slice = createSlice({
     logout(state: HeaderUiState) {
       state.username = '';
       state.password = '';
+      state.token = '';
       state.id = 0;
+      localStorage.removeItem('user');
+      localStorage.removeItem('token');
     },
   },
 });

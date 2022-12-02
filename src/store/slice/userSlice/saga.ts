@@ -3,9 +3,7 @@ import axios from 'axios';
 import { usersActions } from './index';
 
 function* loginUser(action) {
-  console.log('action saga');
   try {
-    console.log('loginUser');
     const user = yield axios.post('https://ttvnapi.com/v1/login', {
       username: action.payload.username,
       password: action.payload.password,

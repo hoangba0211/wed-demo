@@ -2,13 +2,13 @@ import React from 'react';
 import { UnstyledButton, Box, useMantineTheme } from '@mantine/core';
 import { OptionsUser } from '../OptionsUser';
 import { useSelector } from 'react-redux';
-import { getUsersSelector } from 'store/slice/userSlice/selectors';
+import { getTokenSelector } from 'store/slice/userSlice/selectors';
 
 export function User() {
   const theme = useMantineTheme();
-  const user = useSelector(getUsersSelector);
+  const token = useSelector(getTokenSelector);
 
-  if (!user) return null;
+  if (!token) return null;
   return (
     <Box
       sx={{

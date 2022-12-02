@@ -1,9 +1,14 @@
 import React, { useState } from 'react';
-import { AppShell, Navbar, createStyles } from '@mantine/core';
+import { AppShell, Navbar, createStyles, Button } from '@mantine/core';
+import { useNavigate } from 'react-router-dom';
+
 import { Brand } from 'app/components/Brand';
 import { User } from 'app/components/User';
 import { MainLinks } from 'app/components/MainLinks';
 import HeaderUi from 'app/components/Header';
+import { useSelector } from 'react-redux';
+import { getTokenSelector } from 'store/slice/userSlice/selectors';
+import { useTranslation } from 'react-i18next';
 
 const useStyles = createStyles(theme => ({
   hiden: {
@@ -24,14 +29,30 @@ const useStyles = createStyles(theme => ({
       display: 'flex',
     },
   },
+  loginBtn: {
+    transform: 'translateX(-12px)',
+    width: '100%',
+    maxWidth: '100%',
+    marginRight: '12px',
+  },
 }));
 interface LayoutProps {
   children?: React.ReactElement;
 }
 const Layout = ({ children }: LayoutProps) => {
+  const navigate = useNavigate();
   const { classes } = useStyles();
+  const { t } = useTranslation();
 
+  // Global State
+  const token = useSelector(getTokenSelector);
+
+  // Local State
   const [opened, setOpened] = useState(false);
+
+  const handleLoginUser = () => {
+    navigate('/login');
+  };
   return (
     <>
       <AppShell
@@ -55,7 +76,19 @@ const Layout = ({ children }: LayoutProps) => {
               <MainLinks />
             </Navbar.Section>
             <Navbar.Section>
-              <User />
+              {token ? (
+                <User />
+              ) : (
+                <Button
+                  className={classes.loginBtn}
+                  onClick={handleLoginUser}
+                  variant="outline"
+                  gradient={{ from: 'indigo', to: 'cyan' }}
+                  ml="sm"
+                >
+                  {t('Login')}
+                </Button>
+              )}
             </Navbar.Section>
           </Navbar>
         }

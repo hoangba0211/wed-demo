@@ -13,12 +13,17 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { GlobalStyle } from 'styles/global-styles';
 
 import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
+
 import { publicRouters } from './routes';
 import Layout from './Layout';
+import { getTokenSelector } from 'store/slice/userSlice/selectors';
+import { HomePage } from './pages/HomePage';
+import { Login } from './pages/Login';
 
 export function App() {
   const { i18n } = useTranslation();
-
+  const token = useSelector(getTokenSelector);
   return (
     <BrowserRouter>
       <Helmet
@@ -28,16 +33,14 @@ export function App() {
       >
         <meta name="description" content="A React Boilerplate application" />
       </Helmet>
-
       <Routes>
         {publicRouters.map(function (route, index) {
-          const Page = route.component;
+          let Page = route.component;
           let elements = (
             <Layout>
               <Page />
             </Layout>
           );
-
           if (!route.layout) {
             elements = <Page />;
           }

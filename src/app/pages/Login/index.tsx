@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   TextInput,
   Button,
@@ -11,7 +11,7 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { useHeaderUiSlice } from 'store/slice/userSlice';
 import { useNavigate } from 'react-router-dom';
-import { getUsersSelector } from 'store/slice/userSlice/selectors';
+import { getTokenSelector } from 'store/slice/userSlice/selectors';
 import { useTranslation } from 'react-i18next';
 
 export function Login() {
@@ -20,7 +20,7 @@ export function Login() {
   const { t } = useTranslation();
   const { actions } = useHeaderUiSlice();
   // Global State
-  const user = useSelector(getUsersSelector);
+  const token = useSelector(getTokenSelector);
   // Local State
   const [form, setForm] = useState({ username: '', password: '' });
 
@@ -35,11 +35,11 @@ export function Login() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  React.useEffect(() => {
-    if (user) {
+  useEffect(() => {
+    if (token) {
       navigate('/');
     }
-  }, [navigate, user]);
+  }, [navigate, token]);
   return (
     <Container
       sx={theme => ({

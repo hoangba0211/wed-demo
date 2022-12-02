@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { createStyles, useMantineTheme } from '@mantine/core';
+import { Box, createStyles, useMantineTheme } from '@mantine/core';
 import { Header, MediaQuery, Button, Burger } from '@mantine/core';
 
 import { Brand } from '../Brand';
-import { getUsersSelector } from 'store/slice/userSlice/selectors';
+import { getTokenSelector } from 'store/slice/userSlice/selectors';
 import { useNavigate } from 'react-router-dom';
 import { useHeaderUiSlice } from 'store/slice/userSlice';
 
@@ -14,6 +14,11 @@ const useStyles = createStyles(theme => ({
     '@media (max-width: 800px)': {
       flex: '1',
       justifyContent: 'space-between',
+    },
+  },
+  loginBtn: {
+    '@media (max-width: 800px)': {
+      display: 'none',
     },
   },
 }));
@@ -29,9 +34,8 @@ function HeaderUi({ opened, setOpened }: HeaderUiProps) {
   const { classes } = useStyles();
   const { t, i18n } = useTranslation();
   const { actions } = useHeaderUiSlice();
-
   // Global State
-  const user = useSelector(getUsersSelector);
+  const token = useSelector(getTokenSelector);
 
   // Local State
   const [selected, setSelected] = useState(true);
@@ -85,25 +89,27 @@ function HeaderUi({ opened, setOpened }: HeaderUiProps) {
             EN
           </Button>
         )}
-        {!user ? (
-          <Button
-            onClick={handleLoginUser}
-            variant="gradient"
-            gradient={{ from: 'indigo', to: 'cyan' }}
-            ml="sm"
-          >
-            {t('Login')}
-          </Button>
-        ) : (
-          <Button
-            onClick={handleLogoutUser}
-            variant="gradient"
-            gradient={{ from: '#ed6ea0', to: '#ec8c69', deg: 35 }}
-            ml="sm"
-          >
-            {t('Logout')}
-          </Button>
-        )}
+        <Box className={classes.loginBtn}>
+          {!token ? (
+            <Button
+              onClick={handleLoginUser}
+              variant="gradient"
+              gradient={{ from: 'indigo', to: 'cyan' }}
+              ml="sm"
+            >
+              {t('Login')}
+            </Button>
+          ) : (
+            <Button
+              onClick={handleLogoutUser}
+              variant="gradient"
+              gradient={{ from: '#ed6ea0', to: '#ec8c69', deg: 35 }}
+              ml="sm"
+            >
+              {t('Logout')}
+            </Button>
+          )}
+        </Box>
       </div>
     </Header>
   );
